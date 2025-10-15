@@ -1,0 +1,45 @@
+name: Remove Duplicates
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  build:
+    name: remove-duplicates
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Run analysis script
+      id: run_script
+      run: |
+          # Function to deduplicate a single file
+          deduplicate_file() {
+              local file="$1"
+
+              # Check if the file is a regular file (not a directory, symlink, etc.)
+              if [[ -f "$file" ]]; then
+                  # Check if the file is readable and writable
+                  if [[ -r "$file" && -w "$file" ]]; then
+                      echo "Processing: $file"
+                      
+                      # Using 'awk' to deduplicate while preserving original line order
+                      awk '!a[$0]++' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+                      
+                  else
+                      echo "Skipping (Permission denied): $file"
+                  fi
+              fi
+          }
+          # Export the function so it can be used by 'find'
+          export -f deduplicate_file
+          find . -type f -name 'tt*' -exec bash -c 'deduplicate_file "$0"' {} \;
+
+    - name: Commit and Push changes
+      uses: stefanzweifel/git-auto-commit-action@v7
+      with:
+        commit_message: 'ci(data): Automated data update [skip ci]'
+        branch: ${{ github.ref_name }} # Ensures it commits to the branch it was run on
+        commit_user_name: 'github-actions[bot]'
+        commit_user_email: 'github-actions[bot]@users.noreply.github.com'
