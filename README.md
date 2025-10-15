@@ -14,10 +14,9 @@ Every time the GitHub Action is triggered manually via `workflow_dispatch`, it p
 
 3. Updates the summary table below with the latest calculation and a human-readable size format (MB, GB, TB).
 
-<!-- START_DATA_SUMMARY -->
 
 ## 📈 Data Analysis Summary
-
+<!-- START_DATA_SUMMARY -->
 <div align="center">
 
 | **Metric** | **Value** | 
@@ -29,14 +28,19 @@ Every time the GitHub Action is triggered manually via `workflow_dispatch`, it p
 </div>
 <!-- END_DATA_SUMMARY -->
 
-## 💾 Data File Format
 
-The system expects each file to represent a unique media ID, containing data streams delimited by commas. The 4th column is designated for a raw byte count (or a similar numerical metric) that is accumulated by the analysis script.
+## 🤝 Contributing
 
-**Example File Content:**
-```
-0,0,,597197000,1673933352
-0,0,,450000000,1673933358
-```
+We welcome contributions to improve the Media Index Tracker! Whether you're fixing a bug, improving the documentation, or adding a new feature, your help is appreciated.
 
-In this example, the script sums `597197000` and `450000000`.
+To contribute:
+- Fork this repository.
+- Create a new branch for your feature or fix.
+- Commit your changes.
+- Submit a Pull Request (PR) detailing your changes.
+
+For major changes or new feature proposals, please open an issue first to discuss what you would like to implement.
+
+## 📜 License
+
+This project is licensed under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.en.html).

@@ -71,8 +71,6 @@ jobs:
         
         # Generate a more visually appealing/modern Markdown block
         NEW_CONTENT=$(cat << EOF
-        ## 📈 Data Analysis Summary
-
         <div align="center">
         
         | Metric | Value |
