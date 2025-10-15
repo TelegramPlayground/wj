@@ -44,6 +44,12 @@ jobs:
             local units=('Bytes' 'KB' 'MB' 'GB' 'TB')
             local i=0
 
+            # Ensure bc is installed for floating point arithmetic
+            if ! command -v bc &> /dev/null; then
+                printf "%d %s" "$bytes" "${units[0]}"
+                return
+            fi
+
             # Loop until bytes is less than 1024 or we reach TB
             while (( $(echo "$bytes >= 1024" | bc -l) )) && (( i < 4 )); do
                 # Perform division using bc for precise floating point (to the nearest MB, GB, or TB)
@@ -76,8 +82,8 @@ jobs:
         | Metric | Value |
         | :--- | :---: |
         | **Last Processed** | $(date -u +"%Y-%m-%d %H:%M UTC") |
-        | **Files Analysed** | \`$FILE_COUNT\` |
-        | **Total Size** | \`$FORMATTED_SUM\` |
+        | **Files Analysed** | $FILE_COUNT |
+        | **Total Size** | $FORMATTED_SUM |
         
         </div>
         EOF
