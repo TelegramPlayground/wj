@@ -17,13 +17,13 @@ Every time the GitHub Action is triggered manually via `workflow_dispatch`, it p
 
 ## 📈 Data Analysis Summary
 <!-- START_DATA_SUMMARY -->
-<div align="center">
+<div align=center>
 
-| **Metric** | **Value** | 
-| :--- | :---: | 
-| **Last Processed** | *Awaiting First Run* | 
-| **Files Analysed** | `0` | 
-| **Total Size** | `0 Bytes` | 
+| Metric | Value |
+| :--- | :---: |
+| **Last Processed** | 2025-10-15 05:44 UTC |
+| **Files Analysed** | 322 |
+| **Total Size** | 0.00 Bytes |
 
 </div>
 <!-- END_DATA_SUMMARY -->
