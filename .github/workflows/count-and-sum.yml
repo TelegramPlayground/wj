@@ -38,35 +38,41 @@ jobs:
     - name: Format Byte Size (Bytes to MB/GB/TB)
       id: format_size
       run: |
-        # Shell function to convert raw bytes to human-readable format (MB, GB, TB)
-        format_bytes() {
-            local bytes=$1
-            local units=('Bytes' 'KB' 'MB' 'GB' 'TB')
-            local i=0
+          # Shell function to convert raw bytes to human-readable format (MB, GB, TB)
+          format_bytes() {
+              local bytes=$1
+              local units=('Bytes' 'KB' 'MB' 'GB' 'TB')
+              local i=0
+              
+              # Check for non-numeric or empty input
+              if [[ -z "$bytes" ]] || ! [[ "$bytes" =~ ^[0-9]+$ ]]; then
+                  echo "0 Bytes"
+                  return
+              fi
 
-            # Ensure bc is installed for floating point arithmetic
-            if ! command -v bc &> /dev/null; then
-                printf "%d %s" "$bytes" "${units[0]}"
-                return
-            fi
+              # Loop until bytes is less than 1024 or we reach TB
+              while (( $(echo "$bytes >= 1024" | bc -l) )) && (( i < 4 )); do
+                  # Perform division using bc for precise floating point (to the nearest MB, GB, or TB)
+                  bytes=$(echo "scale=2; $bytes / 1024" | bc -l)
+                  i=$((i + 1))
+              done
 
-            # Loop until bytes is less than 1024 or we reach TB
-            while (( $(echo "$bytes >= 1024" | bc -l) )) && (( i < 4 )); do
-                # Perform division using bc for precise floating point (to the nearest MB, GB, or TB)
-                bytes=$(echo "scale=2; $bytes / 1024" | bc -l)
-                i=$((i + 1))
-            done
-
-            # Output the formatted size (e.g., 1.50 GB)
-            printf "%.2f %s" "$bytes" "${units[$i]}"
-        }
-        
-        # Run the function on the raw sum and set the output variable
-        RAW_BYTES="${{ steps.run_script.outputs.raw_grand_sum }}"
-        FORMATTED_SUM=$(format_bytes "$RAW_BYTES")
-        
-        echo "Formatted Sum: $FORMATTED_SUM"
-        echo "formatted_sum=$FORMATTED_SUM" >> $GITHUB_OUTPUT
+              # Output the formatted size (e.g., 1.50 GB)
+              printf "%.2f %s" "$bytes" "${units[$i]}"
+          }
+          
+          # Run the function on the raw sum and set the output variable
+          RAW_BYTES="${{ steps.run_script.outputs.grand_sum }}"
+          
+          # Provide a default value (0) if raw_grand_sum is empty or unset
+          if [ -z "$RAW_BYTES" ]; then
+              RAW_BYTES=0
+          fi
+          
+          FORMATTED_SUM=$(format_bytes "$RAW_BYTES")
+          
+          echo "Formatted Sum: $FORMATTED_SUM"
+          echo "formatted_sum=$FORMATTED_SUM" >> $GITHUB_OUTPUT
 
     - name: Generate new README content
       id: generate_content
