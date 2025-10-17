@@ -1,6 +1,8 @@
 name: Get Recently Updated
 on:
-  workflow_dispatch: {}
+  workflow_dispatch: {} # Allow manually kicking off builds
+  schedule:
+    - cron:  '0 12 * * *' # Every day at 12:00 (noon). Ref https://crontab.guru/examples.html
 permissions:
   contents: write
 jobs:
