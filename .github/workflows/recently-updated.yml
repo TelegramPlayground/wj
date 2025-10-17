@@ -17,10 +17,8 @@ jobs:
       id: run_script
       run: |
           mkdir -p "META-INF"
-          find . -maxdepth 1 -type f -name "tt*" -printf '%T@ %p\n' | sort -nr | head -n 10 | cut -d' ' -f2- | cut -d'/' -f2 > "META-INF/movie"
-          find . -mindepth 2 -type f -name "tt*" -printf '%T@ %p\n' |   sort -nr  |   cut -d' ' -f2- | cut -d'/' -f
-          4 | uniq | head -n 10 > "META-INF/tvseries"
-
+          find . -maxdepth 1 -type f -name "tt*" -printf '%T@ %p\n' | sort -nr | head -n 10 | cut -d' ' -f2 | cut -d'/' -f2 > "META-INF/movie"
+          find . -mindepth 2 -type f -name "tt*" -printf '%T@ %p\n' |   sort -nr  |   cut -d' ' -f2 | cut -d'/' -f4 | uniq | head -n 10 > "META-INF/tvseries"
 
     - name: Commit and Push changes
       uses: stefanzweifel/git-auto-commit-action@v7
