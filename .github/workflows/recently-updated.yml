@@ -25,7 +25,7 @@ jobs:
             C=$(curl -L "https://v3.sg.media-imdb.com/suggestion/titles/x/${A}.json?includeVideos=0" 2>/dev/null)
             echo ${C} >> "META-INF/movie"
           done
-          B=$(find . -mindepth 2 -type f -name "tt*" -printf '%T@ %p\n' |   sort -nr  |   cut -d' ' -f2 | cut -d'/' -f4 | uniq | head -n 25)
+          B=$(find . -mindepth 2 -type f -name "tt*" -printf '%T@ %p\n' |   sort -nr  |   cut -d' ' -f2 | cut -d'/' -f4 | sort | uniq | head -n 25)
           rm "META-INF/tvseries"
           touch "META-INF/tvseries"
           for A in ${B}
