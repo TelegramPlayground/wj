@@ -88,8 +88,8 @@ jobs:
         | Metric | Value |
         | :--- | :---: |
         | **Last Processed** | $(date -u +"%Y-%m-%d %H:%M UTC") |
-        | **Files** | $FILE_COUNT |
-        | **Size** | $FORMATTED_SUM |
+        | **Unique Titles** | $FILE_COUNT |
+        | **Total Size** | $FORMATTED_SUM |
         
         </div>
         EOF
