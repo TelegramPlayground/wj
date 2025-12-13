@@ -1,6 +1,8 @@
 name: Remove Duplicates
 on:
-  workflow_dispatch: {}
+  workflow_dispatch: {} # Allow manually kicking off builds
+  schedule:
+    - cron:  '0 8 * * *' # Ref https://crontab.guru/examples.html
 permissions:
   contents: write
 jobs:
@@ -35,6 +37,8 @@ jobs:
           # Export the function so it can be used by 'find'
           export -f deduplicate_file
           find . -type f -name 'tt*' -exec bash -c 'deduplicate_file "$0"' {} \;
+          find . -name "tt*" -type f -exec sed -i '/^[[:space:]]*$/d' {} +
+          find . -name "tt*" -exec perl -i -pe 'chomp if eof' {} +
 
     - name: Commit and Push changes
       uses: stefanzweifel/git-auto-commit-action@v7
