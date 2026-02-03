@@ -21,9 +21,9 @@ Every time the GitHub Action is triggered manually via `workflow_dispatch`, it p
 
 | Metric | Value |
 | :--- | :---: |
-| **Last Processed** | 2026-02-02 10:32 UTC |
-| **Unique Titles** | 6191 |
-| **Total Size** | 14.44 TB |
+| **Last Processed** | 2026-02-03 10:27 UTC |
+| **Unique Titles** | 6308 |
+| **Total Size** | 14.48 TB |
 
 </div>
 <!-- END_DATA_SUMMARY -->
